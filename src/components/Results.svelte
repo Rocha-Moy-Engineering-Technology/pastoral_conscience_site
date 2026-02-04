@@ -2,19 +2,21 @@
   let selectedImage = $state<string | null>(null);
   let selectedAlt = $state<string>('');
 
+  const base = import.meta.env.BASE_URL;
+
   const samples = [
     {
-      image: '/images/sample1.png',
+      image: `${base}images/sample1.png`,
       query: '"I am afraid of the dark"',
       psalms: 'Psalm 23:4, 4:8, 3:5, 121:7',
     },
     {
-      image: '/images/sample2.png',
+      image: `${base}images/sample2.png`,
       query: '"I am anxious"',
       psalms: 'Psalm 56:3, 23:4, 23:2, 84:10',
     },
     {
-      image: '/images/sample3.png',
+      image: `${base}images/sample3.png`,
       query: '"I feel exhausted and drained"',
       psalms: 'Psalm 119:28, 62:1, 23:2-3',
     },
