@@ -18,6 +18,6 @@ export default defineConfig({
     setupFiles: ['./src/__tests__/setup.ts'],
   },
   resolve: {
-    conditions: process.env.VITEST ? ['browser'] : [],
+    conditions: ['browser'],
   },
 });
