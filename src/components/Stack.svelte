@@ -16,7 +16,7 @@
     },
     {
       name: 'Web Frontend',
-      subtitle: 'React Application',
+      subtitle: 'Next.js Application',
       description:
         'User-facing form with real-time progress indicators and client-side validation.',
       technologies: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind'],
