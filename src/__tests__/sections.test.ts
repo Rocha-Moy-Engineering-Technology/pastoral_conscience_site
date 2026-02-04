@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/svelte';
+import { render, screen, fireEvent } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 import Hero from '../components/Hero.svelte';
 import Rationale from '../components/Rationale.svelte';
@@ -29,21 +29,17 @@ describe('Hero Section', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders Request Demo CTA', () => {
+  it('renders Request Demo CTA linking to contact section', () => {
     render(Hero);
     const demoLink = screen.getByRole('link', { name: /request demo/i });
     expect(demoLink).toBeInTheDocument();
-    expect(demoLink).toHaveAttribute(
-      'href',
-      'mailto:phrmoy@gmail.com?subject=Pastoral%20Conscience%20Demo%20Request'
-    );
+    expect(demoLink).toHaveAttribute('href', '#contact');
   });
 
-  it('renders View Architecture CTA', () => {
+  it('does not render View Architecture button', () => {
     render(Hero);
-    const archLink = screen.getByRole('link', { name: /view architecture/i });
-    expect(archLink).toBeInTheDocument();
-    expect(archLink).toHaveAttribute('href', '#architecture');
+    const archLink = screen.queryByRole('link', { name: /view architecture/i });
+    expect(archLink).not.toBeInTheDocument();
   });
 });
 
@@ -101,6 +97,30 @@ describe('Results Section', () => {
       screen.getByText(/i feel exhausted and drained/i)
     ).toBeInTheDocument();
   });
+
+  it('renders clickable image buttons', () => {
+    render(Results);
+    const buttons = screen.getAllByRole('button');
+    expect(buttons.length).toBe(3);
+  });
+
+  it('opens modal when image is clicked', async () => {
+    render(Results);
+    const buttons = screen.getAllByRole('button');
+    await fireEvent.click(buttons[0]);
+    const modal = screen.getByRole('dialog');
+    expect(modal).toBeInTheDocument();
+  });
+
+  it('closes modal when close button is clicked', async () => {
+    render(Results);
+    const buttons = screen.getAllByRole('button');
+    await fireEvent.click(buttons[0]);
+    const closeButton = screen.getByRole('button', { name: /close modal/i });
+    await fireEvent.click(closeButton);
+    const modal = screen.queryByRole('dialog');
+    expect(modal).not.toBeInTheDocument();
+  });
 });
 
 describe('Stack Section', () => {
@@ -124,6 +144,21 @@ describe('Stack Section', () => {
     expect(screen.getByText('Python 3.12+')).toBeInTheDocument();
     expect(screen.getByText('Next.js 16')).toBeInTheDocument();
   });
+
+  it('does not render ADOC/SDOC badge', () => {
+    render(Stack);
+    const adocBadge = screen.queryByText('ADOC/SDOC');
+    expect(adocBadge).not.toBeInTheDocument();
+  });
+
+  it('renders updated DSPy description with three checkers', () => {
+    render(Stack);
+    expect(
+      screen.getByText(
+        /conscience checkers.*helpfulness.*psalm grounding.*citation integrity/i
+      )
+    ).toBeInTheDocument();
+  });
 });
 
 describe('Architecture Section', () => {
@@ -138,6 +173,19 @@ describe('Architecture Section', () => {
       document.querySelector('[data-testid="mermaid-diagram"]')
     ).toBeInTheDocument();
   });
+
+  it('renders three conscience layer items', () => {
+    render(Architecture);
+    expect(screen.getByText(/helpfulness:/i)).toBeInTheDocument();
+    expect(screen.getByText(/psalm grounding:/i)).toBeInTheDocument();
+    expect(screen.getByText(/citation integrity:/i)).toBeInTheDocument();
+  });
+
+  it('does not render Overreach Detection', () => {
+    render(Architecture);
+    const overreach = screen.queryByText(/overreach detection/i);
+    expect(overreach).not.toBeInTheDocument();
+  });
 });
 
 describe('Contact Section', () => {
@@ -146,17 +194,22 @@ describe('Contact Section', () => {
     expect(screen.getByText('Get in Touch')).toBeInTheDocument();
   });
 
-  it('renders email link', () => {
+  it('renders contact form', () => {
     render(Contact);
-    const emailLink = screen.getByRole('link', { name: /request demo/i });
-    expect(emailLink).toHaveAttribute(
-      'href',
-      'mailto:phrmoy@gmail.com?subject=Pastoral%20Conscience%20Demo%20Request'
-    );
+    expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/message/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /send message/i })
+    ).toBeInTheDocument();
   });
 
   it('renders developer bio', () => {
     render(Contact);
     expect(screen.getByText(/pedro/i)).toBeInTheDocument();
+  });
+
+  it('renders email in bio card', () => {
+    render(Contact);
+    expect(screen.getByText('phrmoy@gmail.com')).toBeInTheDocument();
   });
 });

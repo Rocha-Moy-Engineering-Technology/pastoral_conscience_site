@@ -4,8 +4,8 @@
       name: 'Agent Framework',
       subtitle: 'This Repository',
       description:
-        'Multi-repo orchestration with ADOC/SDOC documentation system and Honcho process management.',
-      technologies: ['Multi-Repo', 'ADOC/SDOC', 'Honcho'],
+        'Multi-repo orchestration with structured documentation system and Honcho process management.',
+      technologies: ['Multi-Repo', 'Honcho'],
     },
     {
       name: 'Core Backend',
@@ -18,7 +18,7 @@
       name: 'DSPy Service',
       subtitle: 'Python Service',
       description:
-        'Four conscience checkers (Helpfulness, Exclusivity, Citation Integrity, Overreach) with model fallback.',
+        'Conscience checkers (Helpfulness, Psalm Grounding, Citation Integrity) with model fallback.',
       technologies: ['Python 3.12+', 'DSPy 3.x', 'FastAPI'],
     },
     {

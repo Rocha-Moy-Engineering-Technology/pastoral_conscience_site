@@ -7,7 +7,7 @@
     {
       title: 'Enforced belief alignment',
       description:
-        'Four conscience checkers validate every output before delivery',
+        'Three conscience checkers validate every output before delivery',
     },
     {
       title: 'Confidence verification',

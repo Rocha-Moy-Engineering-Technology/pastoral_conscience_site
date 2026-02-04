@@ -11,9 +11,6 @@ flowchart TB
     subgraph Core["Core Backend (Go)"]
         B[POST /api/prompt]
         C[Gemini File Search<br/>RAG Retrieval]
-        D[DSPy Relevance Filter]
-        E[Draft Generation<br/>Gemini Pro]
-        F[Conscience Checkers]
         G{All Checks<br/>Pass?}
         H[Revision Loop<br/>Gemini Flash]
         I[Response Extraction]
@@ -21,10 +18,11 @@ flowchart TB
     end
 
     subgraph DSPy["DSPy Service (Python)"]
+        D[Relevance Filter]
+        E[Draft Generation<br/>Gemini Pro]
         F1[Helpfulness Check]
-        F2[Psalm Exclusivity Check]
+        F2[Psalm Grounding Check]
         F3[Citation Integrity Check]
-        F4[Overreach Detection]
     end
 
     subgraph Output["Response"]
@@ -35,11 +33,10 @@ flowchart TB
     B --> C
     C --> D
     D --> E
-    E --> F
-    F --> F1 & F2 & F3 & F4
-    F1 & F2 & F3 & F4 --> G
+    E --> F1 & F2 & F3
+    F1 & F2 & F3 --> G
     G -->|No| H
-    H --> F
+    H --> E
     G -->|Yes| I
     I --> J
     J --> K
@@ -97,15 +94,11 @@ flowchart TB
             user?
           </li>
           <li>
-            <strong>Psalm Exclusivity:</strong> Is content grounded solely in Psalms?
+            <strong>Psalm Grounding:</strong> Is content grounded solely in Psalms?
           </li>
           <li>
             <strong>Citation Integrity:</strong> Are all references accurate and
             complete?
-          </li>
-          <li>
-            <strong>Overreach Detection:</strong> Does it claim authority beyond
-            Psalms?
           </li>
         </ul>
       </div>
