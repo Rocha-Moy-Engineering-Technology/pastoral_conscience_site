@@ -77,7 +77,7 @@ flowchart TB
       <div
         id="mermaid-diagram"
         data-testid="mermaid-diagram"
-        class="flex min-h-[500px] items-center justify-center"
+        class="flex items-center justify-center"
       >
         <p class="text-slate-500">Loading architecture diagram...</p>
       </div>
