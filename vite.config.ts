@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  base: '/pastoral_conscience_site/',
   plugins: [
     tailwindcss(),
     svelte({
