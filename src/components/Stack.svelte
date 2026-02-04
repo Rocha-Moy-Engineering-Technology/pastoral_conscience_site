@@ -42,7 +42,7 @@
   <div class="mx-auto max-w-6xl">
     <h2 class="mb-4 text-center text-4xl font-bold">Technology Stack</h2>
     <p class="mx-auto mb-12 max-w-2xl text-center text-slate-400">
-      Five private repositories working together to deliver governed AI responses.
+      Three services (plus the development agent and this site) working together to deliver governed AI responses.
     </p>
 
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
