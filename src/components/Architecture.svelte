@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import mermaid from 'mermaid';
 
+  let isExpanded = $state(false);
+
   const diagramDefinition = `
 flowchart TB
     subgraph Frontend["Web UI (Next.js)"]
@@ -43,6 +45,21 @@ flowchart TB
     K --> A
   `;
 
+  function toggleExpand() {
+    isExpanded = !isExpanded;
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && isExpanded) {
+      toggleExpand();
+    }
+  }
+
   onMount(() => {
     mermaid.initialize({
       startOnLoad: false,
@@ -63,6 +80,9 @@ flowchart TB
         element.innerHTML = svg;
       });
     }
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => document.removeEventListener('keydown', handleKeydown);
   });
 </script>
 
@@ -73,15 +93,46 @@ flowchart TB
       The complete pipeline from user input to verified, citation-backed response.
     </p>
 
-    <div class="card overflow-x-auto">
+    <div class="relative">
       <div
         id="mermaid-diagram"
         data-testid="mermaid-diagram"
-        class="flex items-center justify-center"
+        class="flex items-center justify-center overflow-x-auto"
       >
         <p class="text-slate-500">Loading architecture diagram...</p>
       </div>
+      <button
+        onclick={toggleExpand}
+        class="mt-4 mx-auto flex items-center gap-2 rounded-lg bg-slate-700 px-4 py-2 text-sm text-slate-300 transition-colors hover:bg-slate-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+        </svg>
+        Expand Diagram
+      </button>
     </div>
+
+    {#if isExpanded}
+      <div
+        class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/95 p-4"
+        onclick={toggleExpand}
+        onkeydown={(e) => e.key === 'Enter' && toggleExpand()}
+        role="button"
+        tabindex="0"
+      >
+        <button
+          onclick={toggleExpand}
+          class="absolute top-4 right-4 rounded-lg bg-slate-700 p-2 text-slate-300 transition-colors hover:bg-slate-600"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="max-h-full max-w-full overflow-auto diagram-expanded">
+          {@html document.querySelector('#mermaid-diagram')?.innerHTML || ''}
+        </div>
+      </div>
+    {/if}
 
     <div class="mt-8 grid gap-6 md:grid-cols-2">
       <div class="card">
@@ -125,3 +176,12 @@ flowchart TB
     </div>
   </div>
 </section>
+
+<style>
+  .diagram-expanded :global(svg) {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+  }
+</style>
