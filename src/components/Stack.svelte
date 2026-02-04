@@ -1,13 +1,6 @@
 <script lang="ts">
   const stackItems = [
     {
-      name: 'Agent Framework',
-      subtitle: 'This Repository',
-      description:
-        'Multi-repo orchestration with structured documentation system and Honcho process management.',
-      technologies: ['Multi-Repo', 'Honcho'],
-    },
-    {
       name: 'Core Backend',
       subtitle: 'Go Service',
       description:
@@ -23,10 +16,17 @@
     },
     {
       name: 'Web Frontend',
-      subtitle: 'React Application',
+      subtitle: 'Next.js Application',
       description:
         'User-facing form with real-time progress indicators and client-side validation.',
       technologies: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind'],
+    },
+    {
+      name: 'Agent Framework',
+      subtitle: 'Development',
+      description:
+        'Multi-repo orchestration with structured documentation system and Honcho process management.',
+      technologies: ['Multi-Repo', 'Honcho'],
     },
     {
       name: 'Portfolio Site',
