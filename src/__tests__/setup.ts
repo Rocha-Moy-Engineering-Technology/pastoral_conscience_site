@@ -1,8 +1,16 @@
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import { vi, afterEach } from 'vitest';
 
 // Mock fetch globally
-global.fetch = vi.fn();
+(globalThis as Record<string, unknown>).fetch = vi.fn();
+
+// Mock mermaid to avoid SVG rendering errors in jsdom
+vi.mock('mermaid', () => ({
+  default: {
+    initialize: vi.fn(),
+    render: vi.fn().mockResolvedValue({ svg: '<svg></svg>' }),
+  },
+}));
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
